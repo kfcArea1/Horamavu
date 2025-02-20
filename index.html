@@ -73,6 +73,19 @@
         button:hover {
             background-color: #218838;
         }
+
+        .copy-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -86,6 +99,7 @@
                     <th>Sales Type</th>
                     <th>Survey Model</th>
                     <th>Generated Link</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -203,6 +217,7 @@
                                        link.includes('SM=4.0') ? '4.0' : 
                                        link.includes('SM=3.0') ? '3.0' : 'Unknown'}</td>
                                 <td class="generated-link">${link}</td>
+                                <td><button class="copy-button" onclick="copyLink('${link}')">Copy</button></td>
                             `;
                             tableBody.appendChild(newRow);
                         }
@@ -211,6 +226,14 @@
 
             reader.readAsArrayBuffer(file);
         });
+
+        function copyLink(link) {
+            navigator.clipboard.writeText(link).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy link: ', err);
+            });
+        }
 
         function copyLinks() {
             const links = Array.from(document.querySelectorAll('.generated-link')).map(cell => cell.textContent).join('\n');
